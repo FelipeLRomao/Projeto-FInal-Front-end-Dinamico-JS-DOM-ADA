@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Churrascômetro - Resultado</title>
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+</style>
+</head>
+<body>
+<div id="passo3">
+  <h2>Resultado do Churrascômetro</h2>
+  <table id="tabelaResultado">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Quantidade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Os resultados serão preenchidos aqui via JavaScript -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const tabelaResultado = document.getElementById('tabelaResultado');
+  const homens = parseInt(localStorage.getItem('homens'), 10) || 0;
+  const mulheres = parseInt(localStorage.getItem('mulheres'), 10) || 0;
+  const criancas = parseInt(localStorage.getItem('criancas'), 10) || 0;
+  const bebidasAlcoolicas = parseInt(localStorage.getItem('bebidasAlcoolicas'), 10) || 0;
+
+  const carne = (0.4 * homens) + (0.32 * mulheres) + (0.2 * criancas);
+  const paoAlho = (2 * (homens + mulheres)) + criancas;
+  const carvao = homens + mulheres + criancas + bebidasAlcoolicas;
+  const sal = 0.04 * (homens + mulheres + criancas + bebidasAlcoolicas);
+  const gelo = Math.ceil((homens + mulheres + criancas + bebidasAlcoolicas) / 10) * 5;
+  const refrigerante = Math.ceil((homens + mulheres + criancas + bebidasAlcoolicas) / 5);
+  const agua = Math.ceil((homens + mulheres + criancas + bebidasAlcoolicas) / 5);
+  const cerveja = 3 * bebidasAlcoolicas;
+
+  const resultados = [
+    { item: 'Carne', quantidade: carne.toFixed(2) + ' KG' },
+    { item: 'Pão de Alho', quantidade: paoAlho + ' unidades' },
+    { item: 'Carvão', quantidade: carvao + ' KG' },
+    { item: 'Sal', quantidade: sal.toFixed(2) + ' KG' },
+    { item: 'Gelo', quantidade: gelo + ' KG' },
+    { item: 'Refrigerante', quantidade: refrigerante + ' garrafas de 2L' },
+    { item: 'Água', quantidade: agua + ' garrafas de 1L' },
+    { item: 'Cerveja', quantidade: cerveja + ' garrafas de 600ml' }
+  ];
+
+  resultados.forEach(resultado => {
+    const row = tabelaResultado.insertRow();
+    row.insertCell(0).textContent = resultado.item;
+    row.insertCell(1).textContent = resultado.quantidade;
+  });
+
+  // Limpar o localStorage após exibir os resultados
+  localStorage.clear();
+});
+</script>
+</body>
+</html>
